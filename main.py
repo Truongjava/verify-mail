@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dns.exception import DNSException
 import logging
 from functools import lru_cache
+import os
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -164,4 +165,6 @@ def handle_general_exception(error):
     return jsonify({"error": "Unhandled server error", "details": str(error)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
+
